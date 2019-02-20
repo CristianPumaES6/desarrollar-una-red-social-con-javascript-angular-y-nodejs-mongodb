@@ -81,6 +81,7 @@ function loginUser(req, res) {
             bcrypt.compare(password, user.password, function (err, check) {
                 if (check) {
                     //devolver datos de usuario
+                    user.password = undefined;
                     res.status(200).send({ user });
                 } else {
                     return res.status(404).send({ message: 'el usuario no se a podido logear correctamente.' });
