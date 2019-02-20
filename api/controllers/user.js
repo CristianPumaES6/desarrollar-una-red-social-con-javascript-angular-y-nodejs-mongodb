@@ -182,13 +182,6 @@ function uploadImage(req, res) {
 
     var userId = req.params.id;
 
-
-    console.log('-------------------------');
-    console.log(req.files);
-    console.log('-------------------------');
-    console.log('-------------------------');
-
-
     if (req.files) {
         var file_path = req.files.image.path;
 
@@ -202,23 +195,25 @@ function uploadImage(req, res) {
 
 
         if (userId != req.user.sub) {
-            removeFilesOfUploads(res, file_path, 'no tienes permiso para actualizar los datos .');
+            return removeFilesOfUploads(res, file_path, 'no tienes permiso para actualizar los datos .');
         }
 
         if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
             //actualizar documento de usuario logeado.
+            User.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, userUpdate) => {
+                if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()' });
+                if (!userUpdate) return res.status(404).send({ message: 'No se ha podido actualizar el usuario.' });
 
-            
-            console.log(file_path); //Ubicacion del archivo
-
+                return res.status(200).send({ user: userUpdate });
+            })
 
         } else {
-            removeFilesOfUploads(res, file_path, 'Extension no valida.');
+            return removeFilesOfUploads(res, file_path, 'Extension no valida.');
         }
     }
 }
 
-function removeFilesOfUploads(res, file_path, message){
+function removeFilesOfUploads(res, file_path, message) {
     fs.unlink(file_path, (err) => {
         return res.status(200).send({ message: message });
     });
