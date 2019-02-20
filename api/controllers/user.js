@@ -1,5 +1,7 @@
 'user strict'
 var bcrypt = require('bcrypt-nodejs');
+var mongoosePaginate = require('mongoose-pagination');
+
 var User = require('../models/user');
 var jwt = require('../services/jwt');
 
@@ -14,7 +16,7 @@ function home(req, res) {
 function saveUser(req, res) {
     var params = req.body;
     var user = new User();
-
+    console.log(params);
 
     if (params.name && params.surname && params.nick && params.email && params.password) {
 
@@ -112,7 +114,7 @@ function getUser(req, res) {
     var userId = req.params.id;
     User.findById(userId, (err, user) => {
 
-        if (err) return res.status(500).send({ message: 'Error en la peticio ngetUser' });
+        if (err) return res.status(500).send({ message: 'Error en la peticio getUser()' });
 
         if (!user) return res.status(404).send({ message: 'El usuario no existe.' });
 
@@ -121,6 +123,35 @@ function getUser(req, res) {
     })
 
 }
+
+//Conseguir datos de un usuario
+function getUsers(req, res) {
+
+    //obtenemos el dato del JWt
+    var identity_user_id = req.user.sub;
+
+    var page = 1;
+    if (req.params.page) {
+        page = req.params.page;
+    }
+
+    var itemsPerPage = 5;
+    User.find().sort('_id').paginate(page, itemsPerPage, (err, users, total) => {
+
+        if (err) return res.status(500).send({ message: 'Error en la peticio getUsers()' });
+
+        if (!users) return res.status(404).send({ message: 'No hay usuarios disponibles.' });
+
+
+        return res.status(200).send({
+            users,
+            total,
+            pages: Math.ceil(total / itemsPerPage)
+        });
+    })
+
+}
+
 
 //para la prueba de seguridad con login
 function prueba(req, res) {
@@ -133,5 +164,6 @@ module.exports = {
     saveUser,
     loginUser,
     prueba,
-    getUser
+    getUser,
+    getUsers
 };
