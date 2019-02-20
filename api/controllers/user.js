@@ -103,8 +103,15 @@ function loginUser(req, res) {
 
     })
 }
+
+function prueba(req,res){
+    res.status(200).send({
+        message: 'Ser el mejor.'
+    });
+}
 module.exports = {
     home,
     saveUser,
-    loginUser
+    loginUser,
+    prueba
 };
