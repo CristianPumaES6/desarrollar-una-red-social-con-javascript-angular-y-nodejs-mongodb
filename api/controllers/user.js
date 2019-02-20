@@ -4,6 +4,8 @@ var mongoosePaginate = require('mongoose-pagination');
 
 var User = require('../models/user');
 var jwt = require('../services/jwt');
+var fs = require('fs');
+
 
 //home.
 function home(req, res) {
@@ -176,6 +178,52 @@ function updateUser(req, res) {
 
 }
 
+function uploadImage(req, res) {
+
+    var userId = req.params.id;
+
+
+    console.log('-------------------------');
+    console.log(req.files);
+    console.log('-------------------------');
+    console.log('-------------------------');
+
+
+    if (req.files) {
+        var file_path = req.files.image.path;
+
+        //convertimos path en arreglo para gaurdar solo el nombre
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];// Obtenemos la extension del arreglo.
+
+
+
+        if (userId != req.user.sub) {
+            removeFilesOfUploads(res, file_path, 'no tienes permiso para actualizar los datos .');
+        }
+
+        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+            //actualizar documento de usuario logeado.
+
+            
+            console.log(file_path); //Ubicacion del archivo
+
+
+        } else {
+            removeFilesOfUploads(res, file_path, 'Extension no valida.');
+        }
+    }
+}
+
+function removeFilesOfUploads(res, file_path, message){
+    fs.unlink(file_path, (err) => {
+        return res.status(200).send({ message: message });
+    });
+}
+
 //para la prueba de seguridad con login
 function prueba(req, res) {
     res.status(200).send({
@@ -189,5 +237,6 @@ module.exports = {
     prueba,
     getUser,
     getUsers,
-    updateUser
+    updateUser,
+    uploadImage
 };

@@ -7,3 +7,5 @@ cd C:\Program Files\MongoDB\Server\4.0\bin>
 mongod
 
 problemas con la carpeta data db
+
+modificar el connect-multiparty. user.js
