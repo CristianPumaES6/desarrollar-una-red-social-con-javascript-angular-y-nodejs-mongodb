@@ -104,7 +104,20 @@ function loginUser(req, res) {
     })
 }
 
-function prueba(req,res){
+//conseguir datos de un usuario
+function getUser(req, res) {
+    var userId = req.params.id;
+    User.findById(userId, (err, user) => {
+        if (err) return res.status(500).send({ message: 'Error en la peticio ngetUser' });
+
+        if (!user) return res.status(404).send({ message: 'El usuario no existe.' });
+
+        return res.status(200).send({ user });
+    })
+
+}
+
+function prueba(req, res) {
     res.status(200).send({
         message: 'Ser el mejor.'
     });
