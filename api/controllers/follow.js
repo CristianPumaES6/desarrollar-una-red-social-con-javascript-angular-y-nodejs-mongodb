@@ -68,8 +68,37 @@ function getFollowingUsers(req, res) {
 
 }
 
+function getFollowedUsers(req, res) {
+    var userId = req.user.sub;
+
+    if (req.params.id && req.params.page) userId = req.params.id;//si queremos ver lo seguidores de otro usuario
+
+    var page = 1;
+
+    if (req.params.page) page = req.params.page
+    else page = req.params.id;
+
+    var itemsPerPage = 4;
+
+    Follow.find({ followed: userId }).populate('user' ).paginate(page, itemsPerPage, (err, follows, total) => {
+
+        if (err) return res.status(500).send({ message: 'Error en el servidor getFollowUsers()' });
+        if (!follows) return res.status(404).send({ message: 'No tesigue ningun usuario' });
+
+        return res.status(200).send({
+            total: total,
+            pages: Math.ceil(total / itemsPerPage),
+            follows
+        });
+
+    });
+
+
+}
+
 module.exports = {
     saveFollow,
     deleteFollow,
-    getFollowingUsers
+    getFollowingUsers,
+    getFollowedUsers
 };
