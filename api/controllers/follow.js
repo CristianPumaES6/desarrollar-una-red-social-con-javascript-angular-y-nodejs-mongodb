@@ -80,7 +80,7 @@ function getFollowedUsers(req, res) {
 
     var itemsPerPage = 4;
 
-    Follow.find({ followed: userId }).populate('user' ).paginate(page, itemsPerPage, (err, follows, total) => {
+    Follow.find({ followed: userId }).populate('user').paginate(page, itemsPerPage, (err, follows, total) => {
 
         if (err) return res.status(500).send({ message: 'Error en el servidor getFollowUsers()' });
         if (!follows) return res.status(404).send({ message: 'No tesigue ningun usuario' });
@@ -96,9 +96,28 @@ function getFollowedUsers(req, res) {
 
 }
 
+
+//Devolver los usuarios que sigo o los que me estan siguiendo sin paginacion
+function getMyFollows(req, res) {
+    var userId = req.user.sub;
+
+    var find = Follow.find({ followed: userId });
+
+    if (req.params.followed) find = Follow.find({ followed: userId });
+
+    find.populate('user followed').exec((err, follows) => {
+        if (err) return res.status(500).send({ message: 'Error en el servidor' });
+
+        if (!follows) return res.status(404).send({ message: 'No sigues a ningun usuario' })
+
+        return res.status(200).send({ follows });
+    })
+}
+
 module.exports = {
     saveFollow,
     deleteFollow,
     getFollowingUsers,
-    getFollowedUsers
+    getFollowedUsers,
+    getMyFollows
 };
