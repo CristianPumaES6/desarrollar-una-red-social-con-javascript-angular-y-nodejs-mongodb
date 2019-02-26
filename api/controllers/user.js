@@ -121,14 +121,38 @@ function getUser(req, res) {
 
         if (!user) return res.status(404).send({ message: 'El usuario no existe.' });
 
-        Follow.findOne({ "user": req.user.sub, "followed": userId }).exec((err, follow) => {
-
-            if (err) return res.status(500).send({ message: 'Error en la peticio getUser() Follow.findOne' });
-            return res.status(200).send({ user, follow });
-        })
-
+        followThisUser(req.user.sub, userId).then((value) => {
+            user.password = undefined;
+            return res.status(200).send(
+                {
+                    user,
+                    "following": value.following,
+                    "followed": value.followed
+                });
+        });
 
     })
+
+}
+
+async function followThisUser(identity_user_id, user_Id) {
+
+    var following = await Follow.findOne({ "user": identity_user_id, "followed": user_Id }).exec().then((follow) => {
+        return follow;
+    }).catch((err) => {
+        return handleError(err);
+    });
+
+    var followed = await Follow.findOne({ "user": user_Id, "followed": identity_user_id }).exec().then((follow) => {
+        return follow;
+    }).catch((err) => {
+        return handleError(err);
+    });
+
+    return {
+        following: following,
+        followed: followed
+    };
 
 }
 
