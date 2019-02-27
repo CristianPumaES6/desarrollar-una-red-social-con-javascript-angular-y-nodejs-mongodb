@@ -8,10 +8,12 @@ var MessageSchema = Schema({
     viewed: String,
     create_at: String,
     emitter: {
-        type: Schema.ObjectId, ref='User'
+        type: Schema.ObjectId,
+        ref: 'User'
     },
     receiver: {
-        type: Schema.ObjectId, ref='User'
+        type: Schema.ObjectId,
+        ref: 'User'
     }
 });
 
