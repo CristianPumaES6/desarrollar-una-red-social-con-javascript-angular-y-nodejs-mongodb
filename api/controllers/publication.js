@@ -94,6 +94,55 @@ function deletePublication(req, res) {
     });
 }
 
+//Subir imagenes
+function uploadImage(req, res) {
+
+    var publicationId = req.params.id;
+
+    if (req.files) {
+        var file_path = req.files.image.path;
+
+        //convertimos path en arreglo para gaurdar solo el nombre
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];// Obtenemos la extension del arreglo.
+
+
+        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+            //actualizar documento de publicacion.
+            Publication.findByIdAndUpdate(publicationId, { file: file_name }, { new: true }, (err, publicationUpdated) => {
+                if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()',err });
+                if (!publicationUpdated) return res.status(404).send({ message: 'No se ha podido actualizar la publicacion.' });
+
+                return res.status(200).send({ user: publicationUpdated });
+            })
+
+        } else {
+            return removeFilesOfUploads(res, file_path, 'Extension no valida.');
+        }
+    }
+}
+
+
+
+function getImageFile(req, res) {
+    var imageFile = req.params.imageFile;
+
+    var path_file = './uploads/publications/' + imageFile;
+
+    console.log(path_file)
+
+    fs.exists(path_file, (exists) => {
+        if (exists) {
+            res.sendFile(path.resolve(path_file));
+        } else {
+            res.status(200).send({ message: 'No existe la imagen' });
+        }
+    })
+}
+
 //retornar una publicacion decuerdo a su ID.
 
 module.exports = {
@@ -101,5 +150,8 @@ module.exports = {
     savePublication,
     getPublications,
     getPublication,
-    deletePublication
+    deletePublication,
+    uploadImage,
+    getImageFile
+
 }
