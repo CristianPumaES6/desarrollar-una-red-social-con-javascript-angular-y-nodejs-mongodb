@@ -77,16 +77,29 @@ function getPublication(req, res) {
     var publicationId = req.params.id;
 
     Publication.findById(publicationId, (err, publication) => {
-        if (err) return res.status(500).send({ message: 'Error devolver publicaciones.' });
+        if (err) return res.status(500).send({ message: 'Error devolver publicacion' });
         if (!publication) return res.status(404).send({ message: 'No existe la publicacion.' });
         return res.status(200).send({ publication });
     });
 }
+
+function deletePublication(req, res) {
+    var publicationId = req.params.id;
+
+    Publication.find({ 'user': req.user.sub, '_id': publicationId }).remove(err => {
+
+        if (err) return res.status(500).send({ message: 'Error eliminar publicacion.' });
+        return res.status(200).send({ message:'Publicacion eliminada correctamente.' });
+
+    });
+}
+
 //retornar una publicacion decuerdo a su ID.
 
 module.exports = {
     probando,
     savePublication,
     getPublications,
-    getPublication
+    getPublication,
+    deletePublication
 }
