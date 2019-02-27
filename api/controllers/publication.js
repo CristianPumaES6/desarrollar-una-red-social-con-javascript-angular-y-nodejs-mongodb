@@ -37,7 +37,44 @@ function savePublication(req, res) {
     })
 }
 
+
+//retorna las publicaciones de los usuarios que yo sigo.
+function getPublications(req, res) {
+    var page = 1;
+    if (req.params.page) {
+        page = req.params.page;
+    }
+
+    var itemsPerPage = 4;
+
+    Follow.find({ user: req.user.sub }).populate('followed').exec((err, follows) => {
+        if (err) return res.status(500).send({ message: 'Error devolver el seguimiento.' });
+
+        var follows_clean = [];
+
+        follows.forEach((follow) => {
+            follows_clean.push(follow.followed);
+        });
+
+        //operador $in busca adentro de un array las concidencias, busca todo los documento cuyo usuario este dentro del contenido de array y lo sacara.
+        Publication.find({ user: { "$in": follows_clean } }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
+
+            if (err) return res.status(500).send({ message: 'Error devolver publicaciones.' });
+            if (!publications) return res.status(404).send({ message: 'No hay publicaciones.' });
+
+            return res.status(200).send({
+                total_items: total,
+                pages: Math.ceil(total / itemsPerPage),
+                page,
+                publications
+            })
+
+        });
+    });
+}
+
 module.exports = {
     probando,
-    savePublication
+    savePublication,
+    getPublications
 }
