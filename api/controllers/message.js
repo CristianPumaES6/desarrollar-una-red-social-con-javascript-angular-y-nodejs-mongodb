@@ -92,10 +92,26 @@ function getUnviewedMessages(req, res) {
     })
 }
 
+//leer mensajes
+
+function serViewedMessages(req, res) {
+    var userId = req.user.sub;
+
+    //multi = actualizar todos los documentos.
+    Message.update({ receiver: userId, viewed: 'false' }, { viewed: 'true' }, { "multi": true }, (err, messageUpdate) => {
+        if (err) return res.status(500).send({ message: 'Error en la petición.' });
+        if (!messageUpdate) return res.status(404).send({ message: 'no se han podido actualizar.' });
+        return res.status(200).send({
+            messages: messageUpdate
+        });
+    })
+}
+
 module.exports = {
     probando,
     saveMessage,
     getReceivedMessages,
     getEmitterMessages,
-    getUnviewedMessages
+    getUnviewedMessages,
+    serViewedMessages
 }
