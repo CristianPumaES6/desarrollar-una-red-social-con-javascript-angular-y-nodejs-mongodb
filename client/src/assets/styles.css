@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+
+.navigation{
+    padding: 0px !important;
+}
+
+.navigation .navbar{
+    
+    border-radius: 0px !important;
+    background: #605ec0;
+}
