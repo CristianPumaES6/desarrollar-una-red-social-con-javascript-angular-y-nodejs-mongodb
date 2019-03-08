@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
+import { UserService } from '../../services/user.service'
 
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  providers: [UserService]
 })
 export class RegisterComponent implements OnInit {
   public title: string;
   public user: User;
 
-  constructor() {
+  constructor(
+    private _userService: UserService
+  ) {
     this.title = 'Registrate';
     this.user = new User(
       "",
@@ -28,6 +32,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.user);
+    this._userService.register(this.user);
   }
 }
