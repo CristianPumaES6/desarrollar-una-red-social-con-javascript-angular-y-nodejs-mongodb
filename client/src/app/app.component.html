@@ -6,7 +6,7 @@
         <a href="#" class="navbar-brand">{{title}}</a>
       </div>
 
-      <ul class="nav justify-content-end">
+      <ul class="nav justify-content-end" *ngIf="identity">
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span class="fas fa-home"></span>
@@ -23,6 +23,21 @@
           <a class="nav-link" href="#">
             <span class="fas fa-user"></span>
             gente
+          </a>
+        </li>
+      </ul>
+
+      <ul class="nav justify-content-end" *ngIf="!identity">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/login']" [routerLinkActive]="['active']">
+            <span class="fas fa-sign-out-alt"></span>
+            Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/registro']" [routerLinkActive]="['active']">
+            <span class="fas fa-registered"></span>
+            Registro
           </a>
         </li>
       </ul>

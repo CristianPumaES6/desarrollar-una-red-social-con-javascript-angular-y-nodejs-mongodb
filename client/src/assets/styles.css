@@ -11,6 +11,10 @@
     border-bottom: 1px solid #eee;
 }
 
+.active{
+    border-bottom: 3px solid #07057c;
+}
+
 /* CABECERA */
 .navigation{
     padding: 0px !important;
