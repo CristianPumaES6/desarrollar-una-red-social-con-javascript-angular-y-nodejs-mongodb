@@ -2,11 +2,13 @@
   <nav class="navbar">
     <div class="container-fluid">
 
-      <div class="navbar-header">
-        <a href="#" class="navbar-brand">{{title}}</a>
-      </div>
 
-      <ul class="nav justify-content-end" *ngIf="identity">
+      <ul class="nav justify-content-start" *ngIf="identity">
+        <li>
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand">{{title}}</a>
+          </div>
+        </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">
             <span class="fas fa-home"></span>
@@ -39,6 +41,39 @@
             <span class="fas fa-registered"></span>
             Registro
           </a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right" *ngIf="identity">
+        <li>
+          <!-- AVATAR -->
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            {{identity.name}}
+            <span class="caret"></span>
+          </a>
+
+          <ul class="dropdown-menu">
+            <li>
+              <a href="">
+                <span class="fas fa-user"></span>
+                Mi perfil
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <span class="fas fa-tools"></span>
+                Mi datos
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <span class="fas fa-power-off"></span>
+                Cerrar session
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
 
