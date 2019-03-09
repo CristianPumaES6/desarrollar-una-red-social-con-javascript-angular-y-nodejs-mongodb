@@ -21,7 +21,7 @@ export class UserService {
         return this._http.post(this.url + 'register', params, { headers })
     }
 
-    singup(user: User, gettoken = null): Observable<any> {
+    singup(user, gettoken = null): Observable<any> {
         if (gettoken != null) {
             user = Object.assign(user, {gettoken});
         }
