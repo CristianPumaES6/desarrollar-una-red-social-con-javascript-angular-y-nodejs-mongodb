@@ -3,12 +3,11 @@
     <div class="container-fluid">
 
 
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand">{{title}}</a>
+      </div>
+
       <ul class="nav justify-content-start" *ngIf="identity">
-        <li>
-          <div class="navbar-header">
-            <a href="#" class="navbar-brand">{{title}}</a>
-          </div>
-        </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">
             <span class="fas fa-home"></span>
@@ -44,7 +43,7 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right" *ngIf="identity">
+      <ul class="nav navbar navbar-right" *ngIf="identity">
         <li>
           <!-- AVATAR -->
         </li>
@@ -68,7 +67,7 @@
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="" (click)="logout()">
                 <span class="fas fa-power-off"></span>
                 Cerrar session
               </a>

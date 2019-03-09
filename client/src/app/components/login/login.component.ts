@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service'
 
@@ -16,6 +18,8 @@ export class LoginComponent implements OnInit {
     public token;
 
     constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
         private _userService: UserService
     ) {
         this.title = 'Identificate';
@@ -70,8 +74,7 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('token', JSON.stringify(this.token));
 
                     //Conseguir el contadores o estadisticas de usuario.
-
-                    this.getToken();
+                    this._router.navigate(['/']);
                 }
             }, error => {
                 var errorMessage = <any>error;
