@@ -9,6 +9,7 @@ export class UserService {
     public url: string;
     public identity;
     public token;
+    public stats;
 
     constructor(public _http: HttpClient) {
         this.url = GLOBAL.url;
@@ -23,7 +24,7 @@ export class UserService {
 
     singup(user, gettoken = null): Observable<any> {
         if (gettoken != null) {
-            user = Object.assign(user, {gettoken});
+            user = Object.assign(user, { gettoken });
         }
 
         let params = JSON.stringify(user);
@@ -32,27 +33,45 @@ export class UserService {
         return this._http.post(this.url + 'login', params, { headers });
     }
 
-    getIdentity(){
+    getIdentity() {
         let identity = JSON.parse(localStorage.getItem('identity'));
 
-        if(identity != "undefined"){
+        if (identity != "undefined") {
             this.identity = identity;
-        }else{
+        } else {
             this.identity = null;
         }
 
         return this.identity;
     }
 
-    getToken(){
+    getToken() {
         let token = JSON.parse(localStorage.getItem('token'));
 
-        if(token != "undefined"){
+        if (token != "undefined") {
             this.token = token;
-        }else{
+        } else {
             this.token = null;
         }
 
         return this.token;
+    }
+
+    getStats() {
+        let stats = JSON.parse(localStorage.getItem('stats'));
+
+        if (stats != "underfined") this.stats = stats
+        else this.stats = null;
+
+        return this.stats;
+    }
+
+    getCounters(userId= null): Observable<any> {
+        let headers = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', this.getToken());
+
+        if (userId != null) return this._http.get(this.url + 'counters/' + userId, { headers })
+        else return this._http.get(this.url + 'counters', { headers })
+
     }
 }
