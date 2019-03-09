@@ -12,12 +12,12 @@ import { UserService } from '../../services/user.service';
 })
 export class UserEditComponent implements OnInit {
 
-    private title: string;
-    public user: User;
-    public identity;
-    public token;
-    public status: string;
-    
+  private title: string;
+  public user: User;
+  public identity;
+  public token;
+  public status: string;
+
   constructor(
     private _route: ActivatedRoute,
     private _routers: Router,
@@ -34,4 +34,7 @@ export class UserEditComponent implements OnInit {
     console.log("user.edith component se ha cargado.");
   }
 
+  onSubmit() {
+    console.log(this.user);
+  }
 }
