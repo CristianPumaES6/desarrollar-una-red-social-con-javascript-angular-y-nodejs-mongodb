@@ -275,14 +275,32 @@ function updateUser(req, res) {
 
     }
 
-    User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
+    User.find({
+        $or: [
+            { email: update.email },
+            { nick: update.nick }
+        ]
+    }).exec((err, users) => {
 
-        if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()' });
-        if (!userUpdate) return res.status(404).send({ message: 'No se ha podido actualizar el usuario.' });
+        var user_isset = false;
+        users.forEach((user) => {
+            if (user && user._id != userId) user_isset = true;
+        })
 
-        return res.status(200).send({ user: userUpdate });
+        if (user_isset) {
+            return res.status(404).send({ message: 'Los datos ya estan en uso.' });
+        }
+        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdate) => {
 
+            if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()' });
+            if (!userUpdate) return res.status(404).send({ message: 'No se ha podido actualizar el usuario.' });
+
+            return res.status(200).send({ user: userUpdate });
+
+        });
     })
+
+
 
 }
 
