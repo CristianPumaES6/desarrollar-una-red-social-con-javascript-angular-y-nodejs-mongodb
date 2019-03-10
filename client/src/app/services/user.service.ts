@@ -66,12 +66,19 @@ export class UserService {
         return this.stats;
     }
 
-    getCounters(userId= null): Observable<any> {
+    getCounters(userId = null): Observable<any> {
         let headers = new HttpHeaders().set('Content-Type', 'application/json')
             .set('Authorization', this.getToken());
 
         if (userId != null) return this._http.get(this.url + 'counters/' + userId, { headers })
         else return this._http.get(this.url + 'counters', { headers })
 
+    }
+
+    updateUser(user: User): Observable<any> {
+        let params = JSON.stringify(user);
+        let headers = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', this.getToken());
+        return this._http.put(this.url + 'update-user/' + user._id, params, { headers });
     }
 }
