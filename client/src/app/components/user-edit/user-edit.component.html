@@ -32,6 +32,10 @@
             <span *ngIf="!email.value && email.touched">El email es obligarios.</span>
         </P>
 
+        <p>
+                <label>Subir tu avatar</label>
+                <input type="file" placeholder="Subir Image">
+        </p>
         <input type="submit" value="{{title}}" class="btn btn-warning" [disabled]="!userEditForm.form.valid">
 
     </form>
