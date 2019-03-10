@@ -32,9 +32,14 @@
             <span *ngIf="!email.value && email.touched">El email es obligarios.</span>
         </P>
 
+        <div *ngIf="user.image">
+            <img src="{{ url + 'get-image-user/' + user.image }}">
+
+        </div>
+
         <p>
-                <label>Subir tu avatar</label>
-                <input type="file" placeholder="Subir Image">
+            <label>Subir tu avatar</label>
+            <input type="file" placeholder="Subir Image" (change)="fileChangeEvent($event)" />
         </p>
         <input type="submit" value="{{title}}" class="btn btn-warning" [disabled]="!userEditForm.form.valid">
 
