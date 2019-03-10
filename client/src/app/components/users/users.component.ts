@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
   public pages;
   public users: User[];
   public status;
+  public url;
 
   constructor(
     private _route: ActivatedRoute,
@@ -32,6 +33,7 @@ export class UsersComponent implements OnInit {
     this.title = "Gente";
     this.identity = this._userService.getIdentity;
     this.token = this._userService.getToken;
+    this.url = GLOBAL.url;
   }
 
   ngOnInit() {
@@ -42,18 +44,19 @@ export class UsersComponent implements OnInit {
   actualPage() {
     this._route.params.subscribe(
       params => {
-        let page = params['page'];
+        let page = parseInt(params['page']);
         this.page = page;
+
 
         if (!page) {
           page = 1;
-        } else {
-          this.next_page = page + 1;
-          this.prev_page = page - 1;
+        }
+        console.log(typeof(page))
+        this.next_page = page + 1;
+        this.prev_page = page - 1;
 
-          if (this.prev_page <= 0) {
-            this.prev_page = 1;
-          }
+        if (this.prev_page <= 0) {
+          this.prev_page = 1;
         }
 
         //DEVOILVER LISTADO DE USUARIO
@@ -73,7 +76,7 @@ export class UsersComponent implements OnInit {
           this.users = response.users;
           this.pages = response.pages;
           if (page > this.pages) {
-            this._router.navigate(['/gente',1]);
+            this._router.navigate(['/gente', 1]);
           }
         }
       }, error => {
