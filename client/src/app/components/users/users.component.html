@@ -1,4 +1,4 @@
-<div class="col-lg-8">
+<div class="col-lg-8 float-left">
   <h1 class="h1-strong">{{title}}</h1>
 
   <div class="people">
@@ -26,10 +26,10 @@
 
           <!-- Seguir y dejar de seguir-->
           <div class="float-right" *ngIf="user._id != identity._id">
-            
+
             <button class="btn btn-success" *ngIf="this.follows.indexOf(user._id) < 0" (click)="followUser(user._id)">
               <span class="fa fa-plus"></span>
-              Seguir 
+              Seguir
             </button>
 
             <button class="btn btn-primary ml-2" *ngIf="this.follows.indexOf(user._id) >= 0"
@@ -63,3 +63,6 @@
 
   </div>
 </div>
+
+<app-sidebar class="col-lg-4 panel panel-default float-left"></app-sidebar>
+<div class="clearfix"></div>
