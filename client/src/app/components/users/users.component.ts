@@ -111,8 +111,9 @@ export class UsersComponent implements OnInit {
     var follow = new Follow('', this.identity._id, followed);
     this._followService.addFollow(this.token, follow).subscribe(
       response => {
-        console.log(response)
-        if (!response.follow) {
+        
+        //if (!response.follow) {
+        if (!response) {
           this.status = 'error';
         } else {
           this.status = 'success';
