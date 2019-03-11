@@ -31,8 +31,7 @@
   border-radius: 20px;
   text-align: center;
 }
-
-.avatar {
+.navbar .avatar {
   width: 35px;
   height: 35px;
   border-radius: 100px;
@@ -40,10 +39,12 @@
   margin-top: 2px;
   margin-right: 10px;
 }
-.avatar img {
+.navbar .avatar img {
   height: 45px;
   width: auto;
 }
+
+/* Apartado para el listado de usuario */
 
 .item-user .image-user {
   width: 35px;
@@ -56,7 +57,35 @@
 .item-user .image-user a {
   font-weight: bold;
 }
-.item-user .image-user img{
+.item-user .image-user img {
   width: 40px;
   background: black;
+}
+
+/* SideBar */
+#user-card,#new-publication {
+  padding: 25px;
+  width: 90%;
+  margin-top: 40px;
+}
+
+#user-card .avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 100px;
+  overflow: hidden;
+  margin-right: 10px;
+}
+#user-card .avatar img {
+  height: 100%;
+  width: auto;
+}
+
+.sidebar-32{
+  width: 90%;
+  padding: 0px !important;
+}
+
+.name-surname a{
+  font-weight: bold;
 }

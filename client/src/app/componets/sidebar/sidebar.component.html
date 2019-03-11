@@ -1,9 +1,17 @@
-<div class="col-lg-12 card card-body">
-  <div class="avatar">
+<div class="sidebar-32">
+
+  <h1 class="h1-strong">
+    Mis datos
+  </h1>
+
+</div>
+
+<div id="user-card" class="col-lg-12 card card-body">
+  <div class="avatar float-left">
     <img src="{{ url+'get-image-user/'+identity.image }}" *ngIf="identity.image" />
     <img src="assets/perfil-usuario.jpg" *ngIf="!identity.image" />
   </div>
-  <div class="name-surname">
+  <div class="name-surname float-left">
     <a href="#">
       {{identity.name+' '+identity.surname}}
     </a>
@@ -38,3 +46,19 @@
 </div>
 
 <!-- FORMULARIO DE PUBLICCIONES -->
+
+<div id="new-publication" class="card card-body mt-4">
+  <h3>Crear formulario</h3>
+  <form #newPubForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-10">
+    <p>
+      <label>¿Que estas pensando hoy?</label>
+      <textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required></textarea>
+    </p>
+    <p>
+      <label> Sube tu foto.</label>
+      <input type="file" placeholder="Subir image">
+    </p>
+
+    <input type="submit" value="Enviar" class="btn btn-success" [disabled]="!newPubForm.form.valid">
+  </form>
+</div>
