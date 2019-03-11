@@ -32,10 +32,8 @@
               Seguir 
             </button>
 
-            <button class="btn btn-default ml-2">
-            </button>
             <button class="btn btn-primary ml-2" *ngIf="this.follows.indexOf(user._id) >= 0"
-              (mouseenter)="mouseEnter(user._id)" (mouseleave)="mouseLeave(user._id)">
+              (mouseenter)="mouseEnter(user._id)" (mouseleave)="mouseLeave(user._id)" (click)="unfollowUser(user._id)">
 
               <span *ngIf="user._id == followUserOver; else following">
                 <span class="fa fa-minus"></span>

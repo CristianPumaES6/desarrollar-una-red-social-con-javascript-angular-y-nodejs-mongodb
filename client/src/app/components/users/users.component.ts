@@ -56,7 +56,7 @@ export class UsersComponent implements OnInit {
         if (!page) {
           page = 1;
         }
-        
+
         this.next_page = page + 1;
         this.prev_page = page - 1;
 
@@ -117,6 +117,26 @@ export class UsersComponent implements OnInit {
         } else {
           this.status = 'success';
           this.follows.push(followed)
+        }
+      },
+      error => {
+        var errorMesasage = <any>error;
+        console.log(errorMesasage);
+
+        if (errorMesasage != null) {
+          this.status = 'error';
+        }
+      }
+    )
+  }
+
+
+  unfollowUser(followed) {
+    this._followService.deleteFollow(this.token, followed).subscribe(
+      response => {
+        var search = this.follows.indexOf(followed);
+        if (search != -1) {
+          this.follows.splice(search, 1);
         }
       },
       error => {
