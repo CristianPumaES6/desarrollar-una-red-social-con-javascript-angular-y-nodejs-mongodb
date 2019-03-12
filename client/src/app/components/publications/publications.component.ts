@@ -8,12 +8,12 @@ import { PublicationService } from '../../services/publication.service';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css'],
+  selector: 'app-publications',
+  templateUrl: './publications.component.html',
+  styleUrls: ['./publications.component.css'],
   providers: [UserService, PublicationService]
 })
-export class TimelineComponent implements OnInit {
+export class PublicationsComponent implements OnInit {
 
   private title: string;
   public identity;
@@ -32,7 +32,7 @@ export class TimelineComponent implements OnInit {
     private _userService: UserService,
     private _publicationService: PublicationService
   ) {
-    this.title = 'Timeline';
+    this.title = 'Publicaciones';
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
     this.url = GLOBAL.url;
@@ -40,7 +40,7 @@ export class TimelineComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("TimelineComponent.components cargados");
+    console.log("PublicationsComponent.components cargados");
     this.getPublications(this.page)
   }
 
@@ -92,11 +92,6 @@ export class TimelineComponent implements OnInit {
       this.noMore = true;
     }
     this.getPublications(this.page, true);
-  }
-
-  refresh(event){
-    console.log(event)
-    this.getPublications(this.page)
   }
 }
 
