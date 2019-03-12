@@ -55,6 +55,8 @@ function getPublications(req, res) {
         follows.forEach((follow) => {
             follows_clean.push(follow.followed);
         });
+        follows_clean.push(req.user.sub);
+
 
         //operador $in busca adentro de un array las concidencias, busca todo los documento cuyo usuario este dentro del contenido de array y lo sacara.
         Publication.find({ user: { "$in": follows_clean } }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
