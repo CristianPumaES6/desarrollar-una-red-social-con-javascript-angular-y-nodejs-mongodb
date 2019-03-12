@@ -22,6 +22,7 @@ export class TimelineComponent implements OnInit {
   public page;
   public total;
   public pages;
+  public itemsPerPag;
   private publications: Publication[];
 
   constructor(
@@ -42,19 +43,27 @@ export class TimelineComponent implements OnInit {
     this.getPublications(this.page)
   }
 
-  getPublications(page) {
+  getPublications(page, adding = false) {
     this._publicationService.getPublications(this.token, page).subscribe(
       response => {
-        if(response.publications){
+        if (response.publications) {
           this.pages = response.pages;
           this.total = response.total_items;
-          this.publications = response.publications;
           this.status = 'success';
+          this.itemsPerPag = response.items_per_page;
 
-          if(page>this.pages){
+          if (!adding) {
+            this.publications = response.publications;
+          } else {
+            var arrayA = this.publications;
+            var arrayB = response.publications;
+            this.publications = arrayA.concat(arrayB);
+          }
+
+          if (page > this.pages) {
             this._router.navigate(['/home'])
           }
-        }else{
+        } else {
           this.status = 'error';
         }
         console.log(response);
@@ -70,4 +79,14 @@ export class TimelineComponent implements OnInit {
     )
   }
 
+
+  public noMore = false;
+  viewMore() {
+    this.page += 1;
+    if (this.page == this.pages) {
+      this.noMore = true;
+    }
+    this.getPublications(this.page, true);
+  } 
 }
+

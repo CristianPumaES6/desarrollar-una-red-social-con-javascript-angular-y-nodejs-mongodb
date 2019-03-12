@@ -66,6 +66,7 @@ function getPublications(req, res) {
                 total_items: total,
                 pages: Math.ceil(total / itemsPerPage),
                 page,
+                items_per_page: itemsPerPage,
                 publications
             })
 
@@ -89,7 +90,7 @@ function deletePublication(req, res) {
     Publication.find({ 'user': req.user.sub, '_id': publicationId }).remove(err => {
 
         if (err) return res.status(500).send({ message: 'Error eliminar publicacion.' });
-        return res.status(200).send({ message:'Publicacion eliminada correctamente.' });
+        return res.status(200).send({ message: 'Publicacion eliminada correctamente.' });
 
     });
 }
@@ -113,7 +114,7 @@ function uploadImage(req, res) {
         if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
             //actualizar documento de publicacion.
             Publication.findByIdAndUpdate(publicationId, { file: file_name }, { new: true }, (err, publicationUpdated) => {
-                if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()',err });
+                if (err) return res.status(500).send({ message: 'Error en la peticio updateUser()', err });
                 if (!publicationUpdated) return res.status(404).send({ message: 'No se ha podido actualizar la publicacion.' });
 
                 return res.status(200).send({ user: publicationUpdated });

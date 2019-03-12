@@ -24,6 +24,14 @@
       </div>
     </div>
   </div>
+
+  <div class="col.lg-12 text-center">
+    <p>
+      <button class="btn btn-success" (click)="viewMore()" *ngIf="!noMore">
+        Ver mas publicaicones
+      </button>
+    </p>
+  </div>
 </div>
 
 <app-sidebar class="col-lg-4 panel panel-default float-left"></app-sidebar>
