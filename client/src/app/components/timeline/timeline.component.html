@@ -1,7 +1,23 @@
 <div class="col-lg-8 panel panel-default float-left">
   <h1 class="h1-strong">{{title}}</h1>
+  <div id="publications">
+    <p>{{publication}}</p>
+    <div *ngFor="let publication of publications" class="item-publication">
+      <div class="card">
+        <div class="card-body">
+          <h4>
+            {{publication.user.name +' '+publication.user.surname}}
+          </h4>
+
+          <div class="publication-text float-left">
+            {{publication.text}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<app-sidebar  class="col-lg-4 panel panel-default float-left"></app-sidebar>
+<app-sidebar class="col-lg-4 panel panel-default float-left"></app-sidebar>
 
 <div class="clearfix"></div>
