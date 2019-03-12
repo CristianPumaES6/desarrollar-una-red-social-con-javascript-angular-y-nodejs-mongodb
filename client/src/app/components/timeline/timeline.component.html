@@ -1,6 +1,9 @@
 <div class="col-lg-8 panel panel-default float-left">
 
-  <h1 class="h1-strong">{{title}}</h1>
+  <h1 class="h1-strong">
+    {{title}}
+    <div class="btn btn-success btn-sm" (click)="refresh($event)"> Mostrar nuevas</div>
+  </h1>
 
 
   <div id="publications">
