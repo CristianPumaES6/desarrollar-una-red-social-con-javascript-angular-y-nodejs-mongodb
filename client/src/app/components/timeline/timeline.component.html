@@ -14,7 +14,13 @@
             </a>
           </div>
           <div>
-            {{publication.user.name +' '+publication.user.surname}}
+            <span>
+              {{publication.user.name +' '+publication.user.surname}}
+            </span>
+            &nbsp;|&nbsp;
+            <span class="date">
+              {{ (publication.created_at | amFromUnix) | amLocale:'es' | amTimeAgo}}
+            </span>
           </div>
 
           <h4 class="publication-text float-left">
