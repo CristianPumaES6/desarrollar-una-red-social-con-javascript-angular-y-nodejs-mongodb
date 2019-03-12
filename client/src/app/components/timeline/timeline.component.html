@@ -5,13 +5,21 @@
     <div *ngFor="let publication of publications" class="item-publication">
       <div class="card">
         <div class="card-body">
-          <h4>
-            {{publication.user.name +' '+publication.user.surname}}
-          </h4>
+          <div class="image-user float-left">
+            <a href="#">
 
-          <div class="publication-text float-left">
-            {{publication.text}}
+              <img src="{{ url + 'get-image-user/' + publication.user.image }}" *ngIf="publication.user.image" />
+              <img src="assets/perfil-usuario.jpg" *ngIf="!publication.user.image" />
+
+            </a>
           </div>
+          <div>
+            {{publication.user.name +' '+publication.user.surname}}
+          </div>
+
+          <h4 class="publication-text float-left">
+            {{publication.text}}
+          </h4>
         </div>
       </div>
     </div>

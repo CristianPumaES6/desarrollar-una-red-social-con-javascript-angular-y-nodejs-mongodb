@@ -46,7 +46,8 @@
 
 /* Apartado para el listado de usuario */
 
-.item-user .image-user {
+.item-user .image-user,
+.item-publication .image-user{
   width: 35px;
   height: 35px;
   border-radius: 100px;
@@ -57,7 +58,8 @@
 .item-user .image-user a {
   font-weight: bold;
 }
-.item-user .image-user img {
+.item-user .image-user img,
+.item-publication .image-user img{
   width: 40px;
   background: black;
 }
